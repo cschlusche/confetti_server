@@ -1,12 +1,6 @@
 // database
 import { Database } from 'https://deno.land/x/denodb/mod.ts';
-const db = new Database('postgres', {
-  database: 'confetti',
-  host: '127.0.0.1',
-  username: 'christian',
-  password: '',
-  port: 5432, // optional
-});
+import db from './db.ts';
 
 import { Router, Status } from "https://deno.land/x/oak/mod.ts";
 
@@ -50,7 +44,7 @@ router.post('/login', async (ctx) => {
     ctx.throw(Status.BadRequest, "Bad Request");
   }
 
-  if (checkCredentials(db, credentials) == true) {
+  if (await checkCredentials(db, credentials) == true) {
 
     // create token
     let token = await createCookie(credentials)

@@ -1,7 +1,7 @@
 import { Model } from 'https://deno.land/x/denodb/mod.ts';
 import { DataTypes } from 'https://deno.land/x/denodb/mod.ts';
 
-export class User extends Model {
+class User extends Model {
     static table = 'users'
     static timestamps = true /* It is very common to have created_at and updated_at fields in our tables. To quickly add this behavior on a model, set timestamps to true */
 
@@ -23,3 +23,5 @@ export class User extends Model {
         return this.hasOne(User);
       }
 }
+
+export default User

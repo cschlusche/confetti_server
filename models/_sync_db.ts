@@ -1,17 +1,17 @@
-import {User} from './User.ts'
-import {Event} from './Event.ts'
-import {EventParticipant} from './EventParticipant.ts'
+// deno run --allow-net './models/_sync_db.ts'
 
-import { Database, Relationships } from 'https://deno.land/x/denodb/mod.ts';
+import User from './User.ts'
+import Event from './Event.ts'
+import EventParticipant from './EventParticipant.ts'
 
-const db = new Database('postgres', {
-    database: 'confetti',
-    host: '127.0.0.1',
-    username: 'christian',
-    password: '',
-    port: 5432, // optional
-  });
+import db from '../db.ts';
 
-db.link([EventParticipant, User, Event]);
+/*
+ * CREATE TABLES based on model
+ */
 
-db.sync();
+// linking: add models to database instance
+db.link([User, Event, EventParticipant]);
+
+// syncing: create tables in database
+await db.sync();

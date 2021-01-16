@@ -2,8 +2,8 @@ import { Model } from 'https://deno.land/x/denodb/mod.ts';
 import { DataTypes } from 'https://deno.land/x/denodb/mod.ts';
 import { Relationships } from 'https://deno.land/x/denodb/mod.ts';
 
-import {Event} from './Event.ts';
-import {User} from './User.ts';
+import Event from './Event.ts';
+import User from './User.ts';
 
 export class EventParticipant extends Model {
     static table = 'event_participant'
@@ -21,3 +21,5 @@ export class EventParticipant extends Model {
         
     }
 }
+
+export default EventParticipant

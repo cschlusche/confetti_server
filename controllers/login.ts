@@ -1,5 +1,6 @@
 import { Database } from 'https://deno.land/x/denodb/mod.ts';
 import { create, Header, Payload, verify, decode } from "https://deno.land/x/djwt/mod.ts";
+import User from "../models/User.ts";
 
 
 interface loginDataType {
@@ -17,16 +18,20 @@ const payload: Payload = {
 const key = '!aJV9uSC!&W7Jxqt9Hx5eKs5NagrgXRx'
 
 /**
- * 
+ * @param db
  * @param loginData
  */
-export const checkCredentials = (db: Database, loginData: loginDataType) => {
+export const checkCredentials = async (db: Database, loginData: loginDataType) => {
 
-    if (String(loginData.username) === "christian" &&
-        String(loginData.password) === "pass") {
+    db.link([User]);
+    let authed_user = await User.where({email: loginData.username, password: loginData.password}).first();
+
+
+    if (authed_user) {
 
         return true;
     } else {
+        
         return false;
     }
 }
@@ -34,7 +39,7 @@ export const checkCredentials = (db: Database, loginData: loginDataType) => {
 /**
  * 
  * @param loginData 
- * @returns JSONWebToken
+ * @return string JSONWebToken
  */
 export const createCookie = (loginData: loginDataType) => {
 
