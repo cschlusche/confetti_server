@@ -16,3 +16,27 @@ The server handles requests from the [confetti_client](https://github.com/cschlu
 ```
 deno run --allow-net './index.ts'  # run deno
 ```
+
+## Process login request
+
+```mermaid
+sequenceDiagram
+
+Client ->> Router: {username, password}
+Router ->> Controller: checkCredentials()
+activate Controller
+Controller ->> Model: User.where()
+note right of Model: denodb lookup
+Model -->> Controller: return User
+Controller -->> Router: return boolean
+deactivate Controller
+
+alt checkCredentials() == true
+Router ->> Controller: createCookie()
+Controller -->> Router: return token
+Router -->> Client: Status.OK, token
+else checkCredentials() == false
+Router -->> Client: Status.Unauthorized
+end
+
+```
